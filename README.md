@@ -93,4 +93,3 @@ join prices pr on pd.sku == pr.sku
 - https://docs.aws.amazon.com/sdk-for-go/api/service/pricing/
 - https://github.com/lyft/awspricing
 - https://github.com/kubecost
->>>>>>> Initial commit
