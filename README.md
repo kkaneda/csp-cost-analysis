@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# csp-cost-analysis
-CSP Cost Analysis
-=======
 # CSP Cost Analysis
 
 ## Dump AWS Price info into sqlite
