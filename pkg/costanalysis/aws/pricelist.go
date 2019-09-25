@@ -308,6 +308,12 @@ func GenerateProductCSV(o *OfferCurrentVersionIndexFile, outputFilename string) 
 			attrs.CapacityStatus,
 			attrs.PreInstalledSw,
 			attrs.Location,
+			attrs.VCPU,
+			attrs.PhysicalProcessor,
+			attrs.ProcessorArchitecture,
+			attrs.ClockSpeed,
+			attrs.Memory,
+			attrs.NetworkPerformance,
 		}
 		if err := w.Write(r); err != nil {
 			return err

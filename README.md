@@ -30,6 +30,12 @@ CREATE TABLE products (
   capacity_status VARCHAR(255),
   pre_installed_sw VARCHAR(255),
   location VARCHAR(255),
+  vcpu VARCHAR(255),
+  physical_processor VARCHAR(255),
+  processor_architecture VARCHAR(255),
+  clock_speed VARCHAR(255),
+  memory VARCHAR(255),
+  network_performance VARCHAR(255),
   PRIMARY KEY (sku)
 );
 CREATE INDEX idx_instance_type on products (instance_type);
@@ -69,27 +75,56 @@ sqlite> select count(*) from prices;
 # Find all locations and associated on-demand prices for a given EC2 type
 sqlite> select pd.location, pr.usd from products pd
 join prices pr on pd.sku == pr.sku 
-  where pd.instance_type = 'c3.large' and 
+  where pd.instance_type = 'c5.large' and 
         pd.tenancy = 'Shared' and 
         pd.operating_system = 'Linux' and 
         pd.capacity_status = 'Used' and 
         pd.pre_installed_sw = 'SQL Std' and        
         pr.offer_term_code = 'JRTCKXETXF' 
   order by 2 desc;
-"South America (Sao Paulo)",0.6430000000
-"Asia Pacific (Singapore)",0.6120000000
-"Asia Pacific (Sydney)",0.6120000000
-"EU (Frankfurt)",0.6090000000
-"Asia Pacific (Tokyo)",0.6080000000
-"Asia Pacific (Osaka-Local)",0.6080000000
-"EU (Ireland)",0.6000000000
-"US West (N. California)",0.6000000000
-"US East (N. Virginia)",0.5850000000
-"US West (Oregon)",0.5850000000
+"South America (Sao Paulo)",0.6110000000
+"Asia Pacific (Sydney)",0.5910000000
+"Asia Pacific (Hong Kong)",0.5880000000
+"Asia Pacific (Tokyo)",0.5870000000
+"Asia Pacific (Osaka-Local)",0.5870000000
+"Middle East (Bahrain)",0.5860000000
+"US West (N. California)",0.5860000000
+"AWS GovCloud (US-East)",0.5820000000
+"EU (Paris)",0.5810000000
+"EU (London)",0.5810000000
+"Asia Pacific (Singapore)",0.5780000000
+"EU (Frankfurt)",0.5770000000
+"EU (Ireland)",0.5760000000
+"Asia Pacific (Seoul)",0.5760000000
+"Canada (Central)",0.5730000000
+"EU (Stockholm)",0.5710000000
+"US West (Oregon)",0.5650000000
+"US East (N. Virginia)",0.5650000000
+"Asia Pacific (Mumbai)",0.5650000000
+"US East (Ohio)",0.5650000000
 ```
+
+```sql
+select pd.instance_type, pd.memory, pd.location, pr.usd from products pd
+ join prices pr on pd.sku == pr.sku
+   where pd.instance_type like 'c5.%' and
+         pd.tenancy = 'Shared' and
+         pd.operating_system = 'Linux' and
+         pd.capacity_status = 'Used' and
+         pd.pre_installed_sw = 'SQL Std' and
+         pr.offer_term_code = 'JRTCKXETXF'
+   order by 2 desc;
+```
+
+## Open items
+
+- Reserved Instances
+- Spot instance prices
+
 
 ## Notes
 
+- https://aws.amazon.com/ec2/instance-types/
 - https://docs.aws.amazon.com/sdk-for-go/api/service/pricing/
 - https://github.com/lyft/awspricing
 - https://github.com/kubecost
