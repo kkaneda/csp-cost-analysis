@@ -8,14 +8,14 @@ curl -O https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/curren
 ./costanalysis \
   --input-offer-file=index.json \
   --products-csv-file=products.csv \
-  --prices-csv-file=prices.csv    
+  --prices-csv-file=prices.csv
 ```
 
 ```
 $ sqlite3 test_db
 SQLite version 3.24.0 2018-06-04 14:10:15
 Enter ".help" for usage hints.
-sqlite> 
+sqlite>
 ```
 
 ```sql
@@ -74,13 +74,13 @@ sqlite> select count(*) from prices;
 
 # Find all locations and associated on-demand prices for a given EC2 type
 sqlite> select pd.location, pr.usd from products pd
-join prices pr on pd.sku == pr.sku 
-  where pd.instance_type = 'c5.large' and 
-        pd.tenancy = 'Shared' and 
-        pd.operating_system = 'Linux' and 
-        pd.capacity_status = 'Used' and 
-        pd.pre_installed_sw = 'SQL Std' and        
-        pr.offer_term_code = 'JRTCKXETXF' 
+join prices pr on pd.sku == pr.sku
+  where pd.instance_type = 'c5.large' and
+        pd.tenancy = 'Shared' and
+        pd.operating_system = 'Linux' and
+        pd.capacity_status = 'Used' and
+        pd.pre_installed_sw = 'SQL Std' and
+        pr.offer_term_code = 'JRTCKXETXF'
   order by 2 desc;
 "South America (Sao Paulo)",0.6110000000
 "Asia Pacific (Sydney)",0.5910000000
@@ -116,15 +116,20 @@ select pd.instance_type, pd.memory, pd.location, pr.usd from products pd
    order by 2 desc;
 ```
 
-## Open items
-
-- Reserved Instances
-- Spot instance prices
 
 
 ## Notes
 
 - https://aws.amazon.com/ec2/instance-types/
-- https://docs.aws.amazon.com/sdk-for-go/api/service/pricing/
-- https://github.com/lyft/awspricing
+- https://docs.aws.amazon.com/sdacing
 - https://github.com/kubecost
+- https://github.com/keikoproj
+
+- Instance type change. No option to just change the CPU size. Need to adjust other resource types.
+
+- No dynamic change to on-demand price. Spot is changing
+
+- How to map instance ID to Terraform configuration. D
+
+- Handling of Spot and reserved instance
+  - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances-history.html
